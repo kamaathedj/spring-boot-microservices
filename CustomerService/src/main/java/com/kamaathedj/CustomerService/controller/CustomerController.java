@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 @RestController
+@RequestMapping("api/v1")
 public class CustomerController {
     private final Flux<Customer> customerFlux;
 

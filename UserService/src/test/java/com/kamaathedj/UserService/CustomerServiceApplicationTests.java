@@ -1,4 +1,4 @@
-package com.kamaathedj.CustomerService;
+package com.kamaathedj.UserService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

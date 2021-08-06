@@ -33,11 +33,14 @@ public class GatewayApplication {
 		return rlb.routes()
 				.route(routeSpec->routeSpec
 						.path("/customers")
+						.filters(filterspec ->filterspec.prefixPath("/api/v1"))
 						.uri("lb://customers")
 				)
 				.route(routeSpec -> routeSpec
-						.path("/meme")
-						.uri("lb://meme"))
+						.path("/users")
+						.filters(filterSpec -> filterSpec.
+								prefixPath("/api/v1"))
+						.uri("lb://users"))
 				.build();
 	}
 

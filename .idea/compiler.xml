@@ -7,21 +7,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="gateway" />
         <module name="CustomerService" />
         <module name="Registry" />
+        <module name="UserService" />
+        <module name="gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="14">
-      <module name="CustomerService" target="14" />
-      <module name="gateway" target="14" />
-      <module name="Registry" target="14" />
+      <module name="CustomerService" target="11" />
+      <module name="gateway" target="11" />
+      <module name="Registry" target="11" />
+      <module name="UserService" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="CustomerService" options="-parameters" />
       <module name="Registry" options="-parameters" />
+      <module name="UserService" options="-parameters" />
       <module name="gateway" options="-parameters" />
     </option>
   </component>

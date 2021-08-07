@@ -9,11 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="CustomerService" />
         <module name="Registry" />
+        <module name="ConfigServer" />
         <module name="UserService" />
         <module name="gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="14">
+      <module name="ConfigServer" target="11" />
       <module name="CustomerService" target="11" />
       <module name="gateway" target="11" />
       <module name="Registry" target="11" />
@@ -22,6 +24,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ConfigServer" options="-parameters" />
       <module name="CustomerService" options="-parameters" />
       <module name="Registry" options="-parameters" />
       <module name="UserService" options="-parameters" />

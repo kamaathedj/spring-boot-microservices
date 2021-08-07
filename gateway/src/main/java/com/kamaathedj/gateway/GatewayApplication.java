@@ -1,8 +1,10 @@
 package com.kamaathedj.gateway;
 
+import org.reactivestreams.Publisher;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.event.RefreshRoutesResultEvent;
+import org.springframework.cloud.gateway.handler.AsyncPredicate;
 import org.springframework.cloud.gateway.route.CachingRouteLocator;
 import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -14,7 +16,9 @@ import org.springframework.security.core.userdetails.MapReactiveUserDetailsServi
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import javax.xml.datatype.Duration;
 import java.time.ZonedDateTime;
@@ -52,15 +56,21 @@ public class GatewayApplication {
 						.uri("lb://users"))
 				.route("rewrite path", routeSpec -> routeSpec
 //						.host("*.twitter.com")
-						.path("/twitter/**")
+						.path("/twitter/**").and().host("*.twitter.com")
+                        .and()
+                        .asyncPredicate(new AsyncPredicate<ServerWebExchange>() {
+                            @Override
+                            public Publisher<Boolean> apply(ServerWebExchange serverWebExchange) {
+                                return Mono.just(serverWebExchange.getRequest().getPath().equals(true));
+                            }
+                        })
 						.filters(filterSpec -> filterSpec.rewritePath("/twitter/(?<segment>.*)",
 								"/${segment}"))
 						.uri("http://twitter.com/@"))
-//				.route("host", routeSpec -> routeSpec
-//						.path("/kamaathedj")
-//						.and()
-//						.between(ZonedDateTime.now(),ZonedDateTime.now().plusMinutes(1))
-//						.uri("http://github.com/kamaathedj"))
+				.route("host", routeSpec -> routeSpec
+						.path("/kamaathedj")
+
+						.uri("http://github.com/kamaathedj"))
 				.build();
 	}
 	@Bean
@@ -68,7 +78,7 @@ public class GatewayApplication {
 		return http.httpBasic().and()
 				.csrf().disable()
 				.authorizeExchange()
-				.pathMatchers("/api/v1").authenticated()
+				.pathMatchers("api/v1").authenticated()
 				.anyExchange().permitAll()
 				.and()
 				.build();
